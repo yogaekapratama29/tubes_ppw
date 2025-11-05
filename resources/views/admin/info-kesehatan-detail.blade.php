@@ -82,15 +82,16 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
-    $('#btnPublikasi').on('click', function() {
+    $('#btnPublikasi').off('click').on('click', function() {
         const btn = $(this);
         btn.prop('disabled', true).html('<i class="bi bi-hourglass-split"></i> Memproses...');
 
         setTimeout(() => {
             alert('Info kesehatan berhasil dipublikasikan!');
-            window.location.href = "{{ route('info-kesehatan.index') }}";
+            window.location.href = "{{ route('administrasi.success') }}";
         }, 1000);
     });
 });
+
 </script>
 @endsection
