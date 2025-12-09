@@ -29,9 +29,16 @@
                         <small class="text-white-50">{{ $item['tanggal'] }}</small>
                     </div>
                 </div>
-                <a href="{{ route('dana-desa.detail') }}" class="btn btn-danger btn-sm px-3">
-                    Cek
-                </a>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ route('dana-desa.detail') }}" class="btn btn-danger btn-sm px-3">
+                        Cek
+                    </a>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </div>
             @endforeach
         </div>

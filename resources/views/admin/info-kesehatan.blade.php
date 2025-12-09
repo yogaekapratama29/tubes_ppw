@@ -26,9 +26,16 @@
                     <i class="{{ $program['icon'] }} text-white fs-3 me-3"></i>
                     <span class="text-white fw-semibold">{{ $program['nama'] }}</span>
                 </div>
-                <a href="{{ route('info-kesehatan.detail') }}" class="btn btn-danger btn-sm px-3">
-                    Cek
-                </a>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ route('info-kesehatan.detail') }}" class="btn btn-danger btn-sm px-3">
+                        Cek
+                    </a>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </div>
             @endforeach
         </div>

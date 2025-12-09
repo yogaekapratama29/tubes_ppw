@@ -22,7 +22,14 @@
                         <small class="d-block text-muted">Kebersihan Desa</small>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm px-4">Cek</button>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-danger btn-sm px-4">Cek</button>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </a>
 
             <a href="{{ route('aduan.detail') }}" 
@@ -36,7 +43,14 @@
                         <small class="d-block text-muted">Infrastruktur Jalan</small>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm px-4">Cek</button>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-danger btn-sm px-4">Cek</button>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </a>
 
             <a href="{{ route('aduan.detail') }}" 
@@ -50,7 +64,14 @@
                         <small class="d-block text-muted">Penerangan Jalan</small>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm px-4">Cek</button>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-danger btn-sm px-4">Cek</button>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </a>
 
             <a href="{{ route('aduan.detail') }}" 
@@ -64,7 +85,14 @@
                         <small class="d-block text-muted">Drainase</small>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm px-4">Cek</button>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-danger btn-sm px-4">Cek</button>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </a>
 
             <a href="{{ route('aduan.detail') }}" 
@@ -78,7 +106,14 @@
                         <small class="d-block text-muted">Kebersihan Desa</small>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-sm px-4">Cek</button>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-danger btn-sm px-4">Cek</button>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </a>
         </div>
     </div>

@@ -21,9 +21,16 @@
                     </div>
                     <span class="text-white fw-semibold fs-5">{{ $potensi['nama'] }}</span>
                 </div>
-                <a href="{{ route('potensi-desa.detail') }}" class="btn btn-danger btn-sm px-3">
-                    Cek
-                </a>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ route('potensi-desa.detail') }}" class="btn btn-danger btn-sm px-3">
+                        Cek
+                    </a>
+                    @if (auth()->check() && auth()->user()->role === 'super admin')
+                    <button class="btn btn-outline-danger btn-sm" type="button">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    @endif
+                </div>
             </div>
             @endforeach
         </div>
