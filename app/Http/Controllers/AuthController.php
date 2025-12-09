@@ -21,6 +21,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+            $user = Auth::user();
+
+            if (!in_array($user->role, ['admin', 'super admin'], true)) {
+                Auth::logout();
+
+                throw ValidationException::withMessages([
+                    'email' => __('auth.failed'),
+                ]);
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('/');
         }

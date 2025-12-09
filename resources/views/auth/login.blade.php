@@ -54,11 +54,17 @@
       <form id="loginForm" class="needs-validation" novalidate method="POST" action="{{ route('login.process') }}">
         @csrf
 
+        @if ($errors->any())
+        <div class="alert alert-danger" role="alert">
+          {{ $errors->first('email') ?? $errors->first('password') ?? __('auth.failed') }}
+        </div>
+        @endif
+
         <div class="mb-3">
           <label for="emailInput" class="form-label">Email</label>
-          <input type="email" class="form-control" id="emailInput" name="email" placeholder="name@example.com" required value="{{ old('email') }}">
-          @error('email')  
-            <div class="text-danger">Alamat email atau password tidak valid.</div>
+          <input type="email" class="form-control @error('email') is-invalid @enderror" id="emailInput" name="email" placeholder="name@example.com" required value="{{ old('email') }}">
+          @error('email')
+          <div class="invalid-feedback">{{ $message }}</div>
           @enderror
         </div>
 
@@ -66,14 +72,14 @@
         <div class="mb-3 position-relative">
           <label for="passwordInput" class="form-label">Password</label>
           <div class="input-group">
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="••••••••" minlength="6" required>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" id="passwordInput" name="password" placeholder="••••••••" minlength="6" required>
             <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Tampilkan kata sandi">
               <i class="bi bi-eye-fill" id="toggleIcon"></i>
             </button>
           </div>
-          {{-- @error('password')  
-            <div class="text-danger">Password minimal 8 karakter.</div>
-          @enderror --}}
+          @error('password')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
 
 
