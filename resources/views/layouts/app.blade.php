@@ -36,8 +36,8 @@
         <div class="d-flex align-items-center">
           <img src="{{ 'assets/profile.jpeg' }}" class="rounded-circle me-2" alt="Profile" height="50px" width="50px">
           <div class="text-white small">
-            <strong>Andreaz Karly</strong><br>
-            <small>andreaz.karly@gmail.com</small>
+            <strong>{{ auth()->user()->name }}</strong><br>
+            <small>{{ auth()->user()->email }}</small>
           </div>
         </div>
       </div>

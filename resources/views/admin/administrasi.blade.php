@@ -25,7 +25,14 @@
                                 <small class="d-block text-muted">Pengajuan: 01 Nov 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
 
                     <a href="{{ route('administrasi.detail') }}" 
@@ -37,7 +44,14 @@
                                 <small class="d-block text-muted">Pengajuan: 28 Okt 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-primary px-3 py-2">Selesai</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary px-3 py-2">Selesai</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
 
                     <a href="{{ route('administrasi.detail') }}" 
@@ -49,7 +63,14 @@
                                 <small class="d-block text-muted">Pengajuan: 25 Okt 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-danger px-3 py-2">Ditolak</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger px-3 py-2">Ditolak</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
                 </div>
             </div>
@@ -68,7 +89,14 @@
                                 <small class="d-block text-muted">Pengajuan: 02 Nov 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
 
                     <a href="{{ route('administrasi.detail') }}" 
@@ -80,7 +108,14 @@
                                 <small class="d-block text-muted">Pengajuan: 30 Okt 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-primary px-3 py-2">Selesai</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary px-3 py-2">Selesai</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
                 </div>
             </div>
@@ -99,7 +134,14 @@
                                 <small class="d-block text-muted">Pengajuan: 03 Nov 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning text-dark px-3 py-2">Diproses</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
 
                     <a href="{{ route('administrasi.detail') }}" 
@@ -111,7 +153,14 @@
                                 <small class="d-block text-muted">Pengajuan: 01 Nov 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-primary px-3 py-2">Selesai</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary px-3 py-2">Selesai</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
 
                     <a href="{{ route('administrasi.detail') }}" 
@@ -123,7 +172,14 @@
                                 <small class="d-block text-muted">Pengajuan: 29 Okt 2025</small>
                             </div>
                         </div>
-                        <span class="badge bg-danger px-3 py-2">Ditolak</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger px-3 py-2">Ditolak</span>
+                            @if (auth()->check() && auth()->user()->role === 'super admin')
+                            <button class="btn btn-outline-danger btn-sm" type="button">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
                     </a>
                 </div>
             </div>
