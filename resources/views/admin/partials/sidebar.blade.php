@@ -29,7 +29,7 @@
   <i class="bi bi-cash-stack"></i> Dana Desa
 </a>
 
-@if (auth()->check() && auth()->user()->role === 'super admin')
+@if (auth()->check() && auth()->user()->role !== 'kesehatan')
   <a href="{{ route('info-kesehatan.index') }}"
     class="{{ str_starts_with($currentPath, 'info-kesehatan') ? 'active' : '' }}">
     <i class="bi bi-heart-pulse"></i> Info Kesehatan
