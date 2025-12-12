@@ -68,7 +68,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
             $user = Auth::user();
 
-            if (!in_array($user->role, ['admin', 'super admin'], true)) {
+            if (!in_array($user->role, ['admin', 'super admin', 'keuangan'], true)) {
                 Auth::logout();
 
                 throw ValidationException::withMessages([
