@@ -1,70 +1,129 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Pandawa</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+      /* Offcanvas as sidebar menu */
+      @media (min-width: 768px) {
+        .offcanvas-push {
+          position: static;
+          transform: none !important;
+          visibility: visible !important;
+          width: 280px !important;
+        }
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        .content-push {
+          /* margin-left: 280px; */
+        }
+      }
 
-  <style>
-    body { background-color: #1c4a50; font-family: 'Poppins', sans-serif; }
-    .sidebar { background-color: #124045; min-height: 100vh; color: white; padding-top: 20px; }
-    .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; font-weight: 500; }
-    .sidebar a:hover, .sidebar a.active { background-color: #0b2f32; }
-    .content { background-color: #f4f6f7; border-radius: 12px; padding: 20px; margin-top: 20px; }
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-dark bg-dark fixed-top shadow-sm">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center">
-        <button class="btn btn-dark d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-          <i class="bi bi-list fs-4"></i>
+      .offcanvas-custom {
+        --bs-offcanvas-bg: #124045;
+        --bs-offcanvas-color: #e5e7eb;
+      }
+
+      .content-push {
+        min-height: 100vh;
+        background-color: #1c4a50;
+      }
+
+      .offcanvas .nav-link {
+        color: #adb5bd;
+        border-radius: 0.5rem;
+      }
+
+      .offcanvas .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .offcanvas .nav-link.active {
+        background-color: #0d6efd;
+        color: #fff;
+      }
+    </style>
+    @yield('style')
+  </head>
+  <body>
+    {{-- Navbar --}}
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">{{ config('app.name', 'Laravel') }}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" aria-expanded="false" aria-label="Toggle sidebar">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand fw-bold" href="#">ADMIN PANDAWA</a>
-      </div>
-
-      <div class="d-flex align-items-center text-white">
-        <div class="me-3 position-relative">
-          <i class="bi bi-bell fs-5"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-        </div>
-        <div class="vr mx-3"></div>
-        <div class="d-flex align-items-center">
-          <img src="{{ 'assets/profile.jpeg' }}" class="rounded-circle me-2" alt="Profile" height="50px" width="50px">
-          <div class="text-white small">
-            <strong>{{ auth()->user()->name }}</strong><br>
-            <small>{{ auth()->user()->email }}</small>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="bi bi-bell fs-5"></i>
+              </a>
+            </li>
+          </ul>
+          <div class="vr mx-3 text-white"></div>
+          <div class="d-flex align-items-center gap-2">
+            <img src="{{ 'assets/profile.jpeg' }}" alt="Profile" width="50" height="50" class="d-inline-block align-text-top rounded-circle">
+            <div class="text-white">
+              <p class="m-0 fw-semibold">{{ auth()->user()->name }}</p>
+              <p class="m-0">{{ auth()->user()->email }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </nav>
-  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="sidebarMenu">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Menu</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body p-3">
-      @include('admin.partials.sidebar')
-    </div>
-  </div>
-  <div class="container-fluid" style="margin-top: 80px;">
-    <div class="row">
-      <div class="col-md-3 col-lg-2 d-none d-md-block sidebar p-3">
-        @include('admin.partials.sidebar')
+    </nav>
+
+    <div class="d-flex">
+      {{-- Menu Sidebar --}}
+      <div class="offcanvas offcanvas-start show border-0 offcanvas-custom offcanvas-push" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+          <button type="button" class="btn-close d-block d-md-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <nav class="nav nav-pills flex-column">
+            <a href="{{ route('profile-desa.index') }}"
+              class="nav-link {{ request()->is('/') || request()->routeIs('profile-desa.*') ? 'active' : '' }}">
+              <i class="bi bi-house-door"></i> Profil Desa
+            </a>
+
+            @if (auth()->check() && auth()->user()->role !== 'keuangan')
+              <a href="{{ route('administrasi.index') }}"
+                class="nav-link {{ request()->routeIs('administrasi.*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text"></i> Administrasi
+              </a>
+
+              <a href="{{ route('aduan.index') }}"
+                class="nav-link {{ request()->routeIs('aduan.*') ? 'active' : '' }}">
+                <i class="bi bi-chat-dots"></i> Aduan Warga
+              </a>
+
+              <a href="{{ route('potensi-desa.index') }}"
+                class="nav-link {{ request()->routeIs('potensi-desa.*') ? 'active' : '' }}">
+                <i class="bi bi-bar-chart"></i> Potensi Desa
+              </a>
+            @endif
+
+            <a href="{{ route('dana-desa.index') }}"
+              class="nav-link {{ request()->routeIs('dana-desa.*') ? 'active' : '' }}">
+              <i class="bi bi-cash-stack"></i> Dana Desa
+            </a>
+
+            @if (auth()->check() && auth()->user()->role !== 'kesehatan')
+              <a href="{{ route('info-kesehatan.index') }}"
+                class="nav-link {{ request()->routeIs('info-kesehatan.*') ? 'active' : '' }}">
+                <i class="bi bi-heart-pulse"></i> Info Kesehatan
+              </a>
+            @endif
+          </nav>
+        </div>
       </div>
-      <div class="col-md-9 col-lg-10 p-4">
+
+      <div class="flex-fill content-push">
         @yield('content')
       </div>
-
     </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  @yield('scripts')
-</body>
+    
+    @yield('script')
+  </body>
 </html>

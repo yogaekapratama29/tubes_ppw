@@ -122,24 +122,6 @@
 
 @section('script')
   <script>
-    // Validasi form bootstrap
-    {{-- (function () {
-      'use strict'
-      const form = document.getElementById('loginForm')
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        } else {
-          // Di sini Anda bisa mengganti dengan panggilan fetch/axios ke API autentikasi
-          event.preventDefault();
-          alert('Berhasil melewati validasi. Kirimkan data ke server di sini.');
-        }
-        form.classList.add('was-validated')
-      }, false)
-    })() --}}
-
-
     // Toggle show/hide password
     const togglePassword = document.getElementById('togglePassword')
     const passwordInput = document.getElementById('passwordInput')
