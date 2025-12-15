@@ -17,7 +17,23 @@ class HealthInformationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->randomElement([
+                'Posyandu Balita Bulanan',
+                'Pemeriksaan Kesehatan Gratis',
+                'Edukasi Gizi Seimbang',
+                'Vaksinasi Lansia',
+                'Senam Sehat Bersama',
+            ]),
+            'description' => fake()->paragraphs(2, true),
+            'event_date' => fake()->dateTimeBetween('-1 month', '+2 months')->format('Y-m-d'),
+            'location' => fake()->randomElement([
+                'Balai Desa Pandawa',
+                'Puskesmas Pandawa',
+                'Lapangan Utama Desa',
+                'Gedung Serbaguna',
+            ]),
+            'is_draft' => fake()->boolean(20),
+            'author_id' => fake()->numberBetween(1, 2),
         ];
     }
 }

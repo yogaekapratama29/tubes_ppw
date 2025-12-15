@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VillageFund;
 use Illuminate\Http\Request;
 
 class VillageFundController extends Controller
@@ -11,7 +12,9 @@ class VillageFundController extends Controller
      */
     public function index()
     {
-        //
+        $villageFunds = VillageFund::get();
+
+        return view('admin.dana-desa', compact('villageFunds'));
     }
 
     /**

@@ -16,8 +16,15 @@ class VillageFundFactory extends Factory
      */
     public function definition(): array
     {
+        $transactionType = fake()->randomElement(['in', 'out']);
+
         return [
-            //
+            'title' => fake()->sentence(3),
+            'description' => fake()->paragraphs(2, true),
+            'amount' => fake()->randomFloat(2, 500000, 25000000),
+            'transaction_type' => $transactionType,
+            'is_draft' => fake()->boolean(25),
+            'admin_id' => fake()->numberBetween(1, 2),
         ];
     }
 }

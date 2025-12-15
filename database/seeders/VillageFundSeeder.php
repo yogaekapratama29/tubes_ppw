@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\VillageFund;
 
 class VillageFundSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class VillageFundSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        VillageFund::factory()->count(20)->create();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VillagePotential;
 use Illuminate\Http\Request;
 
 class VillagePotentialController extends Controller
@@ -11,7 +12,9 @@ class VillagePotentialController extends Controller
      */
     public function index()
     {
-        //
+        $villagePotentials = VillagePotential::get();
+
+        return view('admin.potensi-desa', compact('villagePotentials'));
     }
 
     /**

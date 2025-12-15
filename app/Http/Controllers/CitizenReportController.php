@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CitizenReport;
 use Illuminate\Http\Request;
 
 class CitizenReportController extends Controller
@@ -11,7 +12,9 @@ class CitizenReportController extends Controller
      */
     public function index()
     {
-        //
+        $citizenReports = CitizenReport::get();
+
+        return view('admin.aduan-warga', compact('citizenReports'));
     }
 
     /**

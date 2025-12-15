@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HealthInformation;
 use Illuminate\Http\Request;
 
 class HealthInformationController extends Controller
@@ -11,7 +12,9 @@ class HealthInformationController extends Controller
      */
     public function index()
     {
-        //
+        $healthInformation = HealthInformation::get();
+
+        return view('admin.info-kesehatan', compact('healthInformation'));
     }
 
     /**
