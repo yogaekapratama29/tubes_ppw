@@ -3,39 +3,41 @@
 @section('title', 'Login')
 
 @section('style')
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #115967;
-    color: #222;
-    padding: 1.5rem;
-  }
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #115967;
+      color: #222;
+      padding: 1.5rem;
+    }
 
-  .login-card {
-    width: 100%;
-    max-width: 420px;
-    border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    overflow: hidden;
-  }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
 
-  .card-body { padding: 2rem; }
-  .form-control:focus { box-shadow: none; }
+    .card-body { padding: 2rem; }
+    .form-control:focus { box-shadow: none; }
 
-  .brand {
-    height: 72px;
-    width: 72px;
-    border-radius: 0.75rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.9);
-    margin-bottom: 0.75rem;
-  }
+    .brand {
+      height: 72px;
+      width: 72px;
+      border-radius: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.9);
+      margin-bottom: 0.75rem;
+    }
 
-  .text-muted-small { font-size: 0.9rem; }
+    .text-muted-small { font-size: 0.9rem; }
+  </style>
 @endsection
 
 @section('content')
@@ -119,40 +121,42 @@
 @endsection
 
 @section('script')
-  // Validasi form bootstrap
-  {{-- (function () {
-    'use strict'
-    const form = document.getElementById('loginForm')
-    form.addEventListener('submit', function (event) {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+  <script>
+    // Validasi form bootstrap
+    {{-- (function () {
+      'use strict'
+      const form = document.getElementById('loginForm')
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        } else {
+          // Di sini Anda bisa mengganti dengan panggilan fetch/axios ke API autentikasi
+          event.preventDefault();
+          alert('Berhasil melewati validasi. Kirimkan data ke server di sini.');
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })() --}}
+
+
+    // Toggle show/hide password
+    const togglePassword = document.getElementById('togglePassword')
+    const passwordInput = document.getElementById('passwordInput')
+    const toggleIcon = document.getElementById('toggleIcon')
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'
+      passwordInput.setAttribute('type', type)
+      // ganti ikon
+      if (type === 'text') {
+        toggleIcon.classList.remove('bi-eye-fill')
+        toggleIcon.classList.add('bi-eye-slash-fill')
+        togglePassword.setAttribute('aria-label', 'Sembunyikan kata sandi')
       } else {
-        // Di sini Anda bisa mengganti dengan panggilan fetch/axios ke API autentikasi
-        event.preventDefault();
-        alert('Berhasil melewati validasi. Kirimkan data ke server di sini.');
+        toggleIcon.classList.remove('bi-eye-slash-fill')
+        toggleIcon.classList.add('bi-eye-fill')
+        togglePassword.setAttribute('aria-label', 'Tampilkan kata sandi')
       }
-      form.classList.add('was-validated')
-    }, false)
-  })() --}}
-
-
-  // Toggle show/hide password
-  const togglePassword = document.getElementById('togglePassword')
-  const passwordInput = document.getElementById('passwordInput')
-  const toggleIcon = document.getElementById('toggleIcon')
-  togglePassword.addEventListener('click', () => {
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'
-    passwordInput.setAttribute('type', type)
-    // ganti ikon
-    if (type === 'text') {
-      toggleIcon.classList.remove('bi-eye-fill')
-      toggleIcon.classList.add('bi-eye-slash-fill')
-      togglePassword.setAttribute('aria-label', 'Sembunyikan kata sandi')
-    } else {
-      toggleIcon.classList.remove('bi-eye-slash-fill')
-      toggleIcon.classList.add('bi-eye-fill')
-      togglePassword.setAttribute('aria-label', 'Tampilkan kata sandi')
-    }
-  })
+    })
+  </script>
 @endsection
