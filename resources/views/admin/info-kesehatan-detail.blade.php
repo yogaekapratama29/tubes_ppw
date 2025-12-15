@@ -79,7 +79,7 @@
 </style>
 @endsection
 
-@section('scripts')
+@section('script')
 <script>
 $(document).ready(function() {
     $('#btnPublikasi').off('click').on('click', function() {

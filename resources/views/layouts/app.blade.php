@@ -68,7 +68,7 @@
           </ul>
           <div class="vr mx-3 text-white"></div>
           <div class="d-flex align-items-center gap-2">
-            <img src="{{ 'assets/profile.jpeg' }}" alt="Profile" width="50" height="50" class="d-inline-block align-text-top rounded-circle">
+            <img src="{{ '/assets/profile.jpeg' }}" alt="Profile" width="50" height="50" class="d-inline-block align-text-top rounded-circle">
             <div class="text-white">
               <p class="m-0 fw-semibold">{{ auth()->user()->name }}</p>
               <p class="m-0">{{ auth()->user()->email }}</p>
@@ -92,8 +92,8 @@
             </a>
 
             @if (auth()->check() && auth()->user()->role !== 'keuangan')
-              <a href="{{ route('administration.index') }}"
-                class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
+              <a href="{{ route('administrasi.index') }}"
+                class="nav-link {{ request()->routeIs('administrasi.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Administrasi
               </a>
 

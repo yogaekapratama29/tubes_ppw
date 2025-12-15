@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CitizenReportController;
+use App\Http\Controllers\HealthInformationController;
+use App\Http\Controllers\VillageFundController;
+use App\Http\Controllers\VillagePotentialController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->prefix('auth')->group(function() {
@@ -15,7 +19,11 @@ Route::middleware('auth')->group(function() {
     
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('administration', AdministrationController::class);
+    Route::get('administrasi', [AdministrationController::class, 'index'])->name('administrasi.index');
+    Route::get('aduan', [CitizenReportController::class, 'index'])->name('aduan.index');
+    Route::get('potensi-desa', [VillagePotentialController::class, 'index'])->name('potensi-desa.index');
+    Route::get('dana-desa', [VillageFundController::class, 'index'])->name('dana-desa.index');
+    Route::get('info-kesehatan', [HealthInformationController::class, 'index'])->name('info-kesehatan.index');
 
     Route::get('/', function () {
         return view('admin.profile-desa');
@@ -33,33 +41,33 @@ Route::middleware('auth')->group(function() {
         return view('admin.success');
     })->name('administrasi.success');
 
-    Route::get('/admin/aduan-warga', function () {
-        return view('admin.aduan-warga');
-    })->name('aduan.index');
+    // Route::get('/admin/aduan-warga', function () {
+    //     return view('admin.aduan-warga');
+    // })->name('aduan.index');
 
     Route::get('/admin/aduan-warga/detail', function () {
         return view('admin.aduan-warga-detail');
     })->name('aduan.detail');
 
-    Route::get('/dana-desa', function () {
-        return view('admin.dana-desa');
-    })->name('dana-desa.index');
+    // Route::get('/dana-desa', function () {
+    //     return view('admin.dana-desa');
+    // })->name('dana-desa.index');
 
     Route::get('/dana-desa/detail', function () {
         return view('admin.dana-desa-detail');
     })->name('dana-desa.detail');
 
-    Route::get('/info-kesehatan', function () {
-        return view('admin.info-kesehatan');
-    })->name('info-kesehatan.index');
+    // Route::get('/info-kesehatan', function () {
+    //     return view('admin.info-kesehatan');
+    // })->name('info-kesehatan.index');
 
     Route::get('/info-kesehatan/detail', function () {
         return view('admin.info-kesehatan-detail');
     })->name('info-kesehatan.detail');
 
-    Route::get('/potensi-desa', function () {
-        return view('admin.potensi-desa');
-    })->name('potensi-desa.index');
+    // Route::get('/potensi-desa', function () {
+    //     return view('admin.potensi-desa');
+    // })->name('potensi-desa.index');
 
     Route::get('/potensi-desa/detail', function () {
         return view('admin.potensi-desa-detail');
