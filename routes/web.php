@@ -15,15 +15,15 @@ Route::middleware('auth')->group(function() {
     
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Route::resource('administration', AdministrationController::class);
+    Route::resource('administration', AdministrationController::class);
 
     Route::get('/', function () {
         return view('admin.profile-desa');
     })->name('profile-desa.index');
 
-    Route::get('/admin', function () {
-        return view('admin.administrasi');
-    })->name('administrasi.index');
+    // Route::get('/admin', function () {
+    //     return view('admin.administrasi');
+    // })->name('administrasi.index');
 
     Route::get('/admin/detail', function () {
         return view('admin.administrasi-detail');

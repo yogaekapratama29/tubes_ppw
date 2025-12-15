@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', config('app.name', 'Laravel'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Datatables.net --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
     <style>
       /* Offcanvas as sidebar menu */
       @media (min-width: 768px) {
@@ -88,8 +92,8 @@
             </a>
 
             @if (auth()->check() && auth()->user()->role !== 'keuangan')
-              <a href="{{ route('administrasi.index') }}"
-                class="nav-link {{ request()->routeIs('administrasi.*') ? 'active' : '' }}">
+              <a href="{{ route('administration.index') }}"
+                class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Administrasi
               </a>
 
@@ -124,6 +128,12 @@
       </div>
     </div>
     
+    {{-- Datatables.net --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/datatables.js') }}"></script>
+    
     @yield('script')
+    @stack('scripts')
   </body>
 </html>

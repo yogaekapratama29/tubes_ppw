@@ -5,19 +5,52 @@
     <div class="bg-white rounded-4 shadow-sm overflow-hidden">
         <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
             <h4 class="fw-bold mb-0">Administrasi</h4>
-            @if (auth()->check() && auth()->user()->role === 'admin')
-                <a href="#" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Tambah Baru
-                </a>
-            @else
-
-                <a href="#" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Tambah Baru
-                </a>
-            @endif
+            <a href="#" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Tambah Baru
+            </a>
         </div>
 
         <div class="p-4">
+            <table id="dataTable" class="display">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Jenis Surat</th>
+                        <th>Catatan</th>
+                        <th>Balasan</th>
+                        <th>Status</th>
+                        <th>Pemohon</th>
+                        <th>Admin</th>
+                        <th>Tgl. Pengajuan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($administration_requests as $administration_request)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $administration_request->letter_type }}</td>
+                        <td>{{ $administration_request->message }}</td>
+                        <td>{{ $administration_request->response }}</td>
+                        <td>{{ $administration_request->status }}</td>
+                        <td>{{ $administration_request->user_id }}</td>
+                        <td>{{ $administration_request->admin_id }}</td>
+                        <td>{{ $administration_request->created_at->format('d-m-Y') }}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-warning btn-sm">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        {{-- <div class="p-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white border-bottom py-3">
                     <h6 class="fw-bold mb-0">Kartu Tanda Penduduk</h6>
@@ -126,9 +159,7 @@
 
                 </div>
             </div>
-
-
-        </div>
+        </div> --}}
     </div>
 </div>
 
@@ -191,3 +222,12 @@
     });
 </script>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            initDataTable('#dataTable');
+        });
+    </script>
+@endpush
+

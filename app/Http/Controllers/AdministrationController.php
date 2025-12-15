@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdministrationRequest;
 use Illuminate\Http\Request;
 
 class AdministrationController extends Controller
@@ -11,7 +12,9 @@ class AdministrationController extends Controller
      */
     public function index()
     {
-        return view('admin.profile-desa');
+        $administration_requests = AdministrationRequest::get();
+
+        return view('admin.administrasi', compact('administration_requests'));
     }
 
     /**
