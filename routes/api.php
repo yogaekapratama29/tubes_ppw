@@ -1,0 +1,38 @@
+<?php
+
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+Route::name('api.')->group(function () {
+    Route::prefix('auth')->name('auth.')->group(function () {
+        Route::post('register', [AuthController::class, 'registerProcess'])->name('register');
+        Route::post('login', [AuthController::class, 'loginProcess'])->name('login');
+        Route::middleware('auth:sanctum')->group(function () {
+            // Route::get('user', [AuthController::class, 'show'])->name('user');
+            Route::get('user', function (Request $request) {
+                return $request->user();
+            });
+            Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+        });
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // Route::resource('role', RoleController::class);
+        
+        // Route::resource('group', GroupController::class);
+        
+        // Route::resource('user', UserController::class);
+        
+        // Route::resource('record', RecordController::class);
+        // Route::get('record/user/{userId}', [RecordController::class, 'getByUser'])->name('record.by_user');
+        // Route::get('record/group/{groupId}', [RecordController::class, 'getByGroup'])->name('record.by_group');
+        
+        // Route::resource('tracking', TrackingController::class);
+        
+        // Route::resource('simpanan', SimpananController::class);
+        
+        // Route::resource('setoran', SetoranController::class);
+        // Route::get('setoran/user/{userId}', [SetoranController::class, 'getByUser'])->name('setoran.by_user');
+    });
+});
