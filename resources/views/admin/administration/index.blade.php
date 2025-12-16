@@ -38,7 +38,7 @@
                             <td>{{ $administration_request->status ?? '-' }}</td>
                             <td>{{ $administration_request->user->name ?? '-' }}</td>
                             <td>{{ $administration_request->admin->name ?? '-' }}</td>
-                            <td>{{ $administration_request->created_at->format('d-m-Y') ?? '-' }}</td>
+                            <td>{{ $administration_request->created_at->format('d-m-Y H:i') ?? '-' }}</td>
                             <td>
                                 <button type="button" class="btn btn-outline-warning btn-sm">
                                   <i class="bi bi-pencil"></i>
