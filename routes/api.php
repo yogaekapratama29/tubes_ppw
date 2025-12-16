@@ -9,10 +9,7 @@ Route::name('api.')->group(function () {
         Route::post('register', [AuthController::class, 'registerProcess'])->name('register');
         Route::post('login', [AuthController::class, 'loginProcess'])->name('login');
         Route::middleware('auth:sanctum')->group(function () {
-            // Route::get('user', [AuthController::class, 'show'])->name('user');
-            Route::get('user', function (Request $request) {
-                return $request->user();
-            });
+            Route::get('user', [AuthController::class, 'show'])->name('user');
             Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         });
     });
