@@ -6,6 +6,7 @@ use App\Http\Controllers\CitizenReportController;
 use App\Http\Controllers\HealthInformationController;
 use App\Http\Controllers\VillageFundController;
 use App\Http\Controllers\VillagePotentialController;
+use App\Models\AdministrationRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->prefix('auth')->group(function() {
@@ -19,7 +20,13 @@ Route::middleware('auth')->group(function() {
     
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('administrasi', [AdministrationController::class, 'index'])->name('administrasi.index');
+    Route::resource('administration', AdministrationController::class);
+    
+    Route::get('administrasi', function() {
+        $administration_requests = AdministrationRequest::get();
+
+        return view('admin.administrasi', compact('administration_requests'));
+    })->name('administrasi.index');
     Route::get('aduan', [CitizenReportController::class, 'index'])->name('aduan.index');
     Route::get('potensi-desa', [VillagePotentialController::class, 'index'])->name('potensi-desa.index');
     Route::get('dana-desa', [VillageFundController::class, 'index'])->name('dana-desa.index');

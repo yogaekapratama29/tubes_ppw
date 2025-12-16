@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', config('app.name', 'Laravel'))</title>
+    <title>@yield('title', 'Admin') - {{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Datatables.net --}}
@@ -80,7 +80,7 @@
 
     <div class="d-flex">
       {{-- Menu Sidebar --}}
-      <div class="offcanvas offcanvas-start show border-0 offcanvas-custom offcanvas-push" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+      <div class="offcanvas offcanvas-start border-0 offcanvas-custom offcanvas-push" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
           <button type="button" class="btn-close d-block d-md-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -92,8 +92,8 @@
             </a>
 
             @if (auth()->check() && auth()->user()->role !== 'keuangan')
-              <a href="{{ route('administrasi.index') }}"
-                class="nav-link {{ request()->routeIs('administrasi.*') ? 'active' : '' }}">
+              <a href="{{ route('administration.index') }}"
+                class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Administrasi
               </a>
 
@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <div class="flex-fill content-push">
+      <div class="flex-fill content-push overflow-auto">
         @yield('content')
       </div>
     </div>
@@ -133,6 +133,15 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
     
+    <script>
+        $(document).ready(function() {
+            if ($(window).width() >= 768) {
+                $('.offcanvas').addClass('show');
+                console.log('Tai A')
+              }
+        });
+    </script>
+
     @yield('script')
     @stack('scripts')
   </body>

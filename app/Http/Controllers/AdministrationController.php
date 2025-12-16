@@ -14,7 +14,7 @@ class AdministrationController extends Controller
     {
         $administration_requests = AdministrationRequest::get();
 
-        return view('admin.administrasi', compact('administration_requests'));
+        return view('admin.administration.index', compact('administration_requests'));
     }
 
     /**
