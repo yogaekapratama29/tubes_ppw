@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'Administrasi')
+
 @section('content')
 <div class="container mt-4">
     <div class="bg-white rounded-4 shadow-sm overflow-hidden">
         <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
             <h4 class="fw-bold mb-0">Administrasi</h4>
-            <a href="#" class="btn btn-primary">
+            <a href="{{ route('administration.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-1"></i> Tambah Baru
             </a>
         </div>
@@ -30,13 +32,13 @@
                         @foreach ($administration_requests as $administration_request)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $administration_request->letter_type }}</td>
-                            <td>{{ $administration_request->message }}</td>
-                            <td>{{ $administration_request->response }}</td>
-                            <td>{{ $administration_request->status }}</td>
-                            <td>{{ $administration_request->user_id }}</td>
-                            <td>{{ $administration_request->admin_id }}</td>
-                            <td>{{ $administration_request->created_at->format('d-m-Y') }}</td>
+                            <td>{{ $administration_request->letter_type ?? '-' }}</td>
+                            <td>{{ $administration_request->message ?? '-' }}</td>
+                            <td>{{ $administration_request->response ?? '-' }}</td>
+                            <td>{{ $administration_request->status ?? '-' }}</td>
+                            <td>{{ $administration_request->user->name ?? '-' }}</td>
+                            <td>{{ $administration_request->admin->name ?? '-' }}</td>
+                            <td>{{ $administration_request->created_at->format('d-m-Y') ?? '-' }}</td>
                             <td>
                                 <button type="button" class="btn btn-outline-warning btn-sm">
                                   <i class="bi bi-pencil"></i>

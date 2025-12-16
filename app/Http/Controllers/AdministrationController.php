@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdministrationRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdministrationController extends Controller
 {
@@ -12,7 +14,7 @@ class AdministrationController extends Controller
      */
     public function index()
     {
-        $administration_requests = AdministrationRequest::get();
+        $administration_requests = AdministrationRequest::with(['user', 'admin'])->latest()->get();
 
         return view('admin.administration.index', compact('administration_requests'));
     }
@@ -22,7 +24,7 @@ class AdministrationController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.administration.form');
     }
 
     /**
@@ -30,7 +32,22 @@ class AdministrationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'letter_type' => ['required', 'string', Rule::in(['ktp', 'kk', 'sk'])],
+            'message' => ['required', 'string', 'max:255'],
+            'nik' => ['required', 'string'],
+        ]);
+
+        $user = User::where('national_id', $validated['nik'])->firstOrFail();
+
+        AdministrationRequest::create([
+            'user_id' => $user->id,
+            'letter_type' => $validated['letter_type'],
+            'message' => $validated['message'],
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil ditambahkan.');
     }
 
     /**
