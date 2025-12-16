@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AdministrationRequestSeeder::class,
             CitizenReportSeeder::class,
+            // VillageSeeder::class,
             VillagePotentialSeeder::class,
             VillageFundSeeder::class,
             HealthInformationSeeder::class,
