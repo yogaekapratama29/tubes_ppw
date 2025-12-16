@@ -15,6 +15,130 @@
         }
     ],
     "paths": {
+        "/api/administration": {
+            "post": {
+                "tags": [
+                    "Administration"
+                ],
+                "summary": "Store a new administration request",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "600f916a4e7beaa2fb8746d4e9a9d745",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "letter_type",
+                                    "message",
+                                    "nik"
+                                ],
+                                "properties": {
+                                    "letter_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "ktp",
+                                            "kk",
+                                            "sk"
+                                        ],
+                                        "example": "ktp"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Permohonan pembuatan KTP baru."
+                                    },
+                                    "nik": {
+                                        "type": "string",
+                                        "example": "3201234567890001"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Administration request created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permintaan administrasi berhasil ditambahkan!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/administration/user/{id}": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "summary": "Get administration requests by user ID",
+                "operationId": "3ff28720fc9feecb521dfb5c27d11a5c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pending": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AdministrationRequest"
+                                            }
+                                        },
+                                        "completed": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AdministrationRequest"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -511,6 +635,76 @@
     },
     "components": {
         "schemas": {
+            "AdministrationRequest": {
+                "title": "Administration Request",
+                "description": "Administration Request model",
+                "required": [
+                    "id",
+                    "letter_type",
+                    "message",
+                    "status",
+                    "user_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "letter_type": {
+                        "type": "string",
+                        "enum": [
+                            "ktp",
+                            "kk",
+                            "sk"
+                        ],
+                        "example": "ktp"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Permohonan pembuatan KTP baru."
+                    },
+                    "response": {
+                        "type": "string",
+                        "example": "Dokumen sedang diproses.",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "approved",
+                            "rejected"
+                        ],
+                        "example": "pending"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "admin_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-16T10:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-16T10:00:00.000000Z"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "admin": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            },
             "HealthInformation": {
                 "title": "Health Information",
                 "description": "Health Information model",
@@ -701,6 +895,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Administration",
+            "description": "Administration"
+        },
         {
             "name": "Authentication",
             "description": "Authentication"

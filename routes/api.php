@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HealthInformationController;
 use App\Http\Controllers\VillagePotentialController;
@@ -17,6 +18,9 @@ Route::name('api.')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('administration', AdministrationController::class);
+        Route::get('administration/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
+
         Route::resource('village-potentials', VillagePotentialController::class);
         Route::resource('health-information', HealthInformationController::class);
         

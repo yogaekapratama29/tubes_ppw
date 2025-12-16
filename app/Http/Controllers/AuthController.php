@@ -219,10 +219,6 @@ class AuthController extends Controller
      */
     public function show(Request $request)
     {
-        if ($request->wantsJson()) {
-            return $request->user();
-        }
-
         return $request->user();
     }
 }

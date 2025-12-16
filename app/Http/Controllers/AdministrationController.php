@@ -30,6 +30,33 @@ class AdministrationController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @OA\Post(
+     *     path="/api/administration",
+     *     summary="Store a new administration request",
+     *     tags={"Administration"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"letter_type", "message", "nik"},
+     *             @OA\Property(property="letter_type", type="string", enum={"ktp", "kk", "sk"}, example="ktp"),
+     *             @OA\Property(property="message", type="string", example="Permohonan pembuatan KTP baru."),
+     *             @OA\Property(property="nik", type="string", example="3201234567890001")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Administration request created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Permintaan administrasi berhasil ditambahkan!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -47,6 +74,12 @@ class AdministrationController extends Controller
             'message' => $validated['message'],
             'status' => 'pending',
         ]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Permintaan administrasi berhasil ditambahkan!'
+            ]);
+        }
 
         return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil ditambahkan.');
     }
@@ -110,5 +143,49 @@ class AdministrationController extends Controller
         $administration_request->delete();
 
         return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil dihapus.');
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/administration/user/{id}",
+     *     summary="Get administration requests by user ID",
+     *     tags={"Administration"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="User ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="pending", type="array", @OA\Items(ref="#/components/schemas/AdministrationRequest")),
+     *             @OA\Property(property="completed", type="array", @OA\Items(ref="#/components/schemas/AdministrationRequest"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     )
+     * )
+     */
+    public function getByUser(string $id)
+    {
+        $pending = AdministrationRequest::where('user_id', $id)
+            ->where('status', 'pending')
+            ->with(['user', 'admin'])
+            ->latest()
+            ->get();
+
+        $completed = AdministrationRequest::where('user_id', $id)
+            ->whereIn('status', ['approved', 'rejected'])
+            ->with(['user', 'admin'])
+            ->latest()
+            ->get();
+
+        return response()->json(compact('pending', 'completed'));
     }
 }
