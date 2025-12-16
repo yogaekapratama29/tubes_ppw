@@ -8,13 +8,41 @@ use Illuminate\Http\Request;
 class HealthInformationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/health-information",
+     *     tags={"Health Information"},
+     *     summary="Get all health information",
+     *     description="Retrieve a list of all health information",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Health information list retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="health_information",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/HealthInformation")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $healthInformation = HealthInformation::get();
+        $health_information = HealthInformation::get();
 
-        return view('admin.info-kesehatan', compact('healthInformation'));
+        if ($request->wantsJson()) {
+            return response()->json(compact('health_information'));
+        }
+
+        return view('admin.info-kesehatan', compact('health_information'));
     }
 
     /**
@@ -34,11 +62,52 @@ class HealthInformationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/health-information/{id}",
+     *     tags={"Health Information"},
+     *     summary="Get health information by ID",
+     *     description="Retrieve a specific health information by ID",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Health information ID",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Health information retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="health_information",
+     *                 ref="#/components/schemas/HealthInformation"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Health information not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Health information not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $health_information = HealthInformation::find($id);
+
+        if ($request->wantsJson()) {
+            return response()->json(compact('health_information'));
+        }
     }
 
     /**

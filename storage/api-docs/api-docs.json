@@ -253,10 +253,191 @@
                     }
                 ]
             }
+        },
+        "/api/health-information": {
+            "get": {
+                "tags": [
+                    "Health Information"
+                ],
+                "summary": "Get all health information",
+                "description": "Retrieve a list of all health information",
+                "operationId": "0ccd80dd36b07b3173a9e7db825ec9ed",
+                "responses": {
+                    "200": {
+                        "description": "Health information list retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "health_information": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/HealthInformation"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/health-information/{id}": {
+            "get": {
+                "tags": [
+                    "Health Information"
+                ],
+                "summary": "Get health information by ID",
+                "description": "Retrieve a specific health information by ID",
+                "operationId": "1d46e9079ab93b7a929b4733a8a80cc1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Health information ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Health information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "health_information": {
+                                            "$ref": "#/components/schemas/HealthInformation"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Health information not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Health information not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "HealthInformation": {
+                "title": "Health Information",
+                "description": "Health Information model",
+                "required": [
+                    "id",
+                    "title",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Posyandu Balita"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Kegiatan posyandu untuk balita"
+                    },
+                    "event_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-12-20",
+                        "nullable": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Balai Desa",
+                        "nullable": true
+                    },
+                    "is_draft": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "author_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-16T10:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-16T10:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
@@ -337,6 +518,10 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Health Information",
+            "description": "Health Information"
         }
     ]
 }
