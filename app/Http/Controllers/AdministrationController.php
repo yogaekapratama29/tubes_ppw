@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdministrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class AdministrationController extends Controller
@@ -63,7 +64,9 @@ class AdministrationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $administration_request = AdministrationRequest::with(['user', 'admin'])->find($id);
+
+        return view('admin.administration.form', compact('administration_request'));
     }
 
     /**
@@ -71,7 +74,31 @@ class AdministrationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $administration_request = AdministrationRequest::findOrFail($id);
+
+        $validated = $request->validate([
+            'letter_type' => ['required', 'string', Rule::in(['ktp', 'kk', 'sk'])],
+            'message' => ['required', 'string', 'max:255'],
+            'status' => ['required', 'string', Rule::in(['pending', 'approved', 'rejected'])],
+            'response' => ['nullable', 'string', 'max:255', Rule::requiredIf(function () use ($request) {
+                return $request->input('status') !== 'pending';
+            })],
+        ]);
+
+        $dataToUpdate = [
+            'letter_type' => $validated['letter_type'],
+            'message' => $validated['message'],
+            'status' => $validated['status'],
+            'response' => $validated['response'],
+        ];
+
+        if ($validated['status'] !== 'pending' && is_null($administration_request->admin_id)) {
+            $dataToUpdate['admin_id'] = Auth::id();
+        }
+
+        $administration_request->update($dataToUpdate);
+
+        return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil diperbarui.');
     }
 
     /**

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <div class="bg-white rounded-4 shadow-sm overflow-hidden">
+    <div class="bg-white rounded-4 shadow-sm p-4">
         <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
             <h4 class="fw-bold mb-0">Administrasi</h4>
             <a href="{{ route('administration.create') }}" class="btn btn-primary">
@@ -12,7 +12,7 @@
             </a>
         </div>
 
-        <div class="p-4">
+        <div class="p-0 p-md-4">
             <div class="table-responsive">
                 <table id="dataTable" class="table table-striped table-bordered">
                     <thead>
@@ -40,12 +40,12 @@
                             <td>{{ $administration_request->admin->name ?? '-' }}</td>
                             <td>{{ $administration_request->created_at->format('d-m-Y H:i') ?? '-' }}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-warning btn-sm">
+                                <a href="{{ route('administration.edit', $administration_request->id) }}" class="btn btn-outline-warning btn-sm">
                                   <i class="bi bi-pencil"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm">
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-sm">
                                   <i class="bi bi-trash"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
