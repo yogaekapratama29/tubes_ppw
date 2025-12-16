@@ -106,6 +106,9 @@ class AdministrationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $administration_request = AdministrationRequest::findOrFail($id);
+        $administration_request->delete();
+
+        return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil dihapus.');
     }
 }
