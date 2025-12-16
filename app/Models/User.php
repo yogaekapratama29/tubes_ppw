@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @OA\Schema(
@@ -68,5 +69,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the administration requests for the user.
+     */
+    public function administrationRequests(): HasMany
+    {
+        return $this->hasMany(AdministrationRequest::class, 'user_id');
+    }
+
+    /**
+     * Get the administration requests handled by the admin.
+     */
+    public function handledAdministrationRequests(): HasMany
+    {
+        return $this->hasMany(AdministrationRequest::class, 'admin_id');
     }
 }
