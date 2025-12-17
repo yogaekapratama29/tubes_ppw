@@ -92,6 +92,11 @@
             </a>
 
             @if (auth()->check() && auth()->user()->role !== 'keuangan')
+              <a href="{{ route('user.index') }}"
+                class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
+                <i class="bi bi-person"></i> Daftar Pengguna
+              </a>
+
               <a href="{{ route('administration.index') }}"
                 class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Administrasi

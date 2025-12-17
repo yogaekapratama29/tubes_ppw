@@ -4,6 +4,7 @@ use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CitizenReportController;
 use App\Http\Controllers\HealthInformationController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageFundController;
 use App\Http\Controllers\VillagePotentialController;
 use App\Models\AdministrationRequest;
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function() {
     
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::resource('user', UserController::class);
     Route::resource('administration', AdministrationController::class);
     
     Route::get('administrasi', function() {
