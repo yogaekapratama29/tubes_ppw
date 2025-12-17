@@ -78,3 +78,20 @@
 </x-container>
 @endsection
 
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusSelect = document.getElementById('status');
+            const responseTextarea = document.getElementById('response');
+
+            if (statusSelect) {
+                const toggleResponse = () => {
+                    responseTextarea.disabled = statusSelect.value === 'pending';
+                };
+
+                toggleResponse();
+                statusSelect.addEventListener('change', toggleResponse);
+            }
+        });
+    </script>
+@endpush

@@ -122,10 +122,13 @@ class AdministrationController extends Controller
             'letter_type' => $validated['letter_type'],
             'message' => $validated['message'],
             'status' => $validated['status'],
-            'response' => $validated['response'],
         ];
 
-        if ($validated['status'] !== 'pending' && is_null($administration_request->admin_id)) {
+        if ($validated['status'] === 'pending') {
+            $dataToUpdate['response'] = null;
+            $dataToUpdate['admin_id'] = null;
+        } else {
+            $dataToUpdate['response'] = $validated['response'];
             $dataToUpdate['admin_id'] = Auth::id();
         }
 
