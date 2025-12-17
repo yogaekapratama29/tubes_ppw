@@ -102,8 +102,8 @@
                 <i class="bi bi-file-earmark-text"></i> Administrasi
               </a>
 
-              <a href="{{ route('aduan.index') }}"
-                class="nav-link {{ request()->routeIs('aduan.*') ? 'active' : '' }}">
+              <a href="{{ route('citizen-report.index') }}"
+                class="nav-link {{ request()->routeIs('citizen-report.*') ? 'active' : '' }}">
                 <i class="bi bi-chat-dots"></i> Aduan Warga
               </a>
 

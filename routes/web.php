@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function() {
 
     Route::resource('user', UserController::class);
     Route::resource('administration', AdministrationController::class);
+    Route::resource('citizen-report', CitizenReportController::class);
     
     Route::get('administrasi', function() {
         $administration_requests = AdministrationRequest::get();
