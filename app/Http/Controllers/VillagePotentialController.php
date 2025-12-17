@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VillagePotential;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VillagePotentialController extends Controller
 {
@@ -36,13 +37,13 @@ class VillagePotentialController extends Controller
      */
     public function index(Request $request)
     {
-        $village_potentials = VillagePotential::get();
+        $village_potentials = VillagePotential::latest()->get();
 
         if ($request->wantsJson()) {
             return response()->json(compact('village_potentials'));
         }
 
-        return view('admin.potensi-desa', compact('village_potentials'));
+        return view('admin.village-potential.index', compact('village_potentials'));
     }
 
     /**
@@ -50,7 +51,7 @@ class VillagePotentialController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.village-potential.form');
     }
 
     /**
@@ -58,7 +59,17 @@ class VillagePotentialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'description' => ['required', 'string'],
+        ]);
+
+        $validated['author_id'] = Auth::id();
+
+        VillagePotential::create($validated);
+
+        return redirect()->route('village-potential.index')->with('success', 'Potensi desa berhasil dibuat.');
     }
 
     /**
@@ -103,10 +114,10 @@ class VillagePotentialController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $village_potentials = VillagePotential::find($id);
+        $village_potential = VillagePotential::find($id);
 
         if ($request->wantsJson()) {
-            return response()->json(compact('village_potentials'));
+            return response()->json(compact('village_potential'));
         }
     }
 
@@ -115,22 +126,37 @@ class VillagePotentialController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $village_potential = VillagePotential::find($id);
+
+        return view('admin.village-potential.form', compact('village_potential'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, VillagePotential $village_potential)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'description' => ['required', 'string'],
+        ]);
+
+        $validated['is_draft'] = $request->is_draft ? true : false;
+        $validated['author_id'] = Auth::id();
+
+        $village_potential->update($validated);
+
+        return redirect()->route('village-potential.index')->with('success', 'Potensi desa berhasil diupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(VillagePotential $village_potential)
     {
-        //
+        $village_potential->delete();
+
+        return redirect()->route('village-potential.index')->with('success', 'Potendi desa berhasil dihapus.');
     }
 }

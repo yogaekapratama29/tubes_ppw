@@ -107,8 +107,8 @@
                 <i class="bi bi-chat-dots"></i> Aduan Warga
               </a>
 
-              <a href="{{ route('potensi-desa.index') }}"
-                class="nav-link {{ request()->routeIs('potensi-desa.*') ? 'active' : '' }}">
+              <a href="{{ route('village-potential.index') }}"
+                class="nav-link {{ request()->routeIs('village-potential.*') ? 'active' : '' }}">
                 <i class="bi bi-bar-chart"></i> Potensi Desa
               </a>
             @endif
