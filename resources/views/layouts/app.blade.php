@@ -113,8 +113,8 @@
               </a>
             @endif
 
-            <a href="{{ route('dana-desa.index') }}"
-              class="nav-link {{ request()->routeIs('dana-desa.*') ? 'active' : '' }}">
+            <a href="{{ route('village-fund.index') }}"
+              class="nav-link {{ request()->routeIs('village-fund.*') ? 'active' : '' }}">
               <i class="bi bi-cash-stack"></i> Dana Desa
             </a>
 

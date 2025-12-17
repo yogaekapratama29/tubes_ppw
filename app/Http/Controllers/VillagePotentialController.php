@@ -12,8 +12,8 @@ class VillagePotentialController extends Controller
      * @OA\Get(
      *     path="/api/village-potentials",
      *     tags={"Village Potential"},
-     *     summary="Get all village potentials",
-     *     description="Retrieve a list of all village potentials",
+     *     summary="Get all published village potentials",
+     *     description="Retrieve a list of non-draft village potentials with author relationship",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
@@ -37,10 +37,12 @@ class VillagePotentialController extends Controller
      */
     public function index(Request $request)
     {
-        $village_potentials = VillagePotential::latest()->get();
+        $village_potentials = VillagePotential::with('author')->latest()->get();
 
         if ($request->wantsJson()) {
-            return response()->json(compact('village_potentials'));
+            return response()->json([
+                'village_potentials' => VillagePotential::where('is_draft', 0)->with('author')->latest()->get()
+            ]);
         }
 
         return view('admin.village-potential.index', compact('village_potentials'));

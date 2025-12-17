@@ -70,36 +70,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    /**
-     * Get the administration requests for the user.
-     */
-    public function administrationRequests(): HasMany
-    {
-        return $this->hasMany(AdministrationRequest::class, 'user_id');
-    }
-
-    /**
-     * Get the administration requests handled by the admin.
-     */
-    public function handledAdministrationRequests(): HasMany
-    {
-        return $this->hasMany(AdministrationRequest::class, 'admin_id');
-    }
-
-    /**
-     * Get the citizen reports for the user.
-     */
-    public function citizenReports(): HasMany
-    {
-        return $this->hasMany(CitizenReport::class, 'user_id');
-    }
-
-    /**
-     * Get the citizen reports handled by the admin.
-     */
-    public function handledCitizenReports(): HasMany
-    {
-        return $this->hasMany(CitizenReport::class, 'admin_id');
-    }
 }
