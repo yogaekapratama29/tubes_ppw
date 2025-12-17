@@ -94,7 +94,7 @@
             @if (auth()->check() && auth()->user()->role !== 'keuangan')
               <a href="{{ route('user.index') }}"
                 class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
-                <i class="bi bi-person"></i> Daftar Pengguna
+                <i class="bi bi-person"></i> Daftar Warga
               </a>
 
               <a href="{{ route('administration.index') }}"

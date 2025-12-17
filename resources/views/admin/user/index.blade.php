@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'User')
+@section('title', 'Daftar Warga')
 
 @section('content')
 <x-container>
     <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
-        <h4 class="fw-bold mb-0">User</h4>
+        <h4 class="fw-bold mb-0">Daftar Warga</h4>
         <a href="{{ route('user.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-circle me-1"></i> Tambah Baru
+            <i class="bi bi-plus-circle me-1"></i> Buat Akun Warga
         </a>
     </div>
 
