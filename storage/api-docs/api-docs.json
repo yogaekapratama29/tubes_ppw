@@ -505,6 +505,468 @@
                 ]
             }
         },
+        "/api/village-fund": {
+            "get": {
+                "tags": [
+                    "Village Fund"
+                ],
+                "summary": "List village fund transactions",
+                "description": "Get all village fund transactions (non-draft in JSON) and total balance",
+                "operationId": "add474cf3c88080c2510b17e133b0179",
+                "responses": {
+                    "200": {
+                        "description": "List retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "village_funds": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VillageFund"
+                                            }
+                                        },
+                                        "total_dana": {
+                                            "type": "number",
+                                            "format": "double",
+                                            "example": 72857002
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Village Fund"
+                ],
+                "summary": "Create village fund transaction",
+                "operationId": "06f8ce1baecd48f2c55472d38640ff40",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "transaction_type",
+                                    "amount",
+                                    "description",
+                                    "admin_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Pembangunan Jalan Desa"
+                                    },
+                                    "transaction_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "in",
+                                            "out"
+                                        ],
+                                        "example": "out"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": 15000000
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Pengaspalan jalan utama RT 01/02"
+                                    },
+                                    "is_draft": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "admin_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dana desa berhasil ditambahkan!"
+                                        },
+                                        "village_fund": {
+                                            "$ref": "#/components/schemas/VillageFund"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/village-fund/{id}": {
+            "get": {
+                "tags": [
+                    "Village Fund"
+                ],
+                "summary": "Get village fund by ID",
+                "operationId": "7ed22342ee9e7d48102191a61d09e671",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "village_fund": {
+                                            "$ref": "#/components/schemas/VillageFund"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Village Fund"
+                ],
+                "summary": "Update village fund",
+                "operationId": "cca8fef7db78caa6e681acfcffeab3d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "transaction_type",
+                                    "amount",
+                                    "description",
+                                    "admin_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Pemeliharaan Irigasi"
+                                    },
+                                    "transaction_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "in",
+                                            "out"
+                                        ],
+                                        "example": "out"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": 7500000
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Perbaikan saluran irigasi RT 05"
+                                    },
+                                    "is_draft": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "admin_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dana desa berhasil diperbarui!"
+                                        },
+                                        "village_fund": {
+                                            "$ref": "#/components/schemas/VillageFund"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Village Fund"
+                ],
+                "summary": "Delete village fund",
+                "operationId": "20035195a431f26a5c722733d8b35586",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dana desa berhasil dihapus!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/village-potentials": {
             "get": {
                 "tags": [
@@ -826,6 +1288,63 @@
                 },
                 "type": "object"
             },
+            "VillageFund": {
+                "title": "Village Fund",
+                "description": "Village fund transaction model",
+                "required": [
+                    "id",
+                    "title",
+                    "amount",
+                    "transaction_type",
+                    "admin_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Pembangunan Jalan Desa"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Pengaspalan jalan utama RT 01/02"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 15000000
+                    },
+                    "transaction_type": {
+                        "type": "string",
+                        "enum": [
+                            "in",
+                            "out"
+                        ],
+                        "example": "out"
+                    },
+                    "is_draft": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "admin_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-17T10:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-17T10:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "VillagePotential": {
                 "title": "Village Potential",
                 "description": "Village Potential model",
@@ -906,6 +1425,10 @@
         {
             "name": "Health Information",
             "description": "Health Information"
+        },
+        {
+            "name": "Village Fund",
+            "description": "Village Fund"
         },
         {
             "name": "Village Potential",

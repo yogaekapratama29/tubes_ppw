@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function() {
     Route::resource('administration', AdministrationController::class);
     Route::resource('citizen-report', CitizenReportController::class);
     Route::resource('village-potential', VillagePotentialController::class);
+    Route::resource('village-fund', VillageFundController::class);
     
     Route::get('administrasi', function() {
         $administration_requests = AdministrationRequest::get();
