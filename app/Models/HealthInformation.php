@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @OA\Schema(
@@ -36,4 +37,12 @@ class HealthInformation extends Model
         'is_draft',
         'author_id',
     ];
+
+    /**
+     * Get the author of the health information.
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

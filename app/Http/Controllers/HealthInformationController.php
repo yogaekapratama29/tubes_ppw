@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HealthInformation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HealthInformationController extends Controller
 {
@@ -36,13 +37,15 @@ class HealthInformationController extends Controller
      */
     public function index(Request $request)
     {
-        $health_information = HealthInformation::get();
+        $health_information = HealthInformation::with('author')->latest()->get();
 
         if ($request->wantsJson()) {
-            return response()->json(compact('health_information'));
+            return response()->json([
+                'health_information' => HealthInformation::where('is_draft', 0)->with('author')->latest()->get()
+            ]);
         }
 
-        return view('admin.info-kesehatan', compact('health_information'));
+        return view('admin.health-information.index', compact('health_information'));
     }
 
     /**
@@ -50,7 +53,7 @@ class HealthInformationController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.health-information.form');
     }
 
     /**
@@ -58,7 +61,19 @@ class HealthInformationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'event_date' => ['required', 'date'],
+            'location' => ['required', 'string'],
+        ]);
+
+        $validated['author_id'] = Auth::id();
+        $validated['is_draft'] = $request->is_draft ? true : false;
+
+        HealthInformation::create($validated);
+
+        return redirect()->route('health-information.index')->with('success', 'Informasi kesehatan berhasil dibuat.');
     }
 
     /**
@@ -115,22 +130,38 @@ class HealthInformationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $health_information = HealthInformation::find($id);
+
+        return view('admin.health-information.form', compact('health_information'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, HealthInformation $health_information)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'event_date' => ['required', 'date'],
+            'location' => ['required', 'string'],
+        ]);
+
+        $validated['is_draft'] = $request->is_draft ? true : false;
+        $validated['author_id'] = Auth::id();
+
+        $health_information->update($validated);
+
+        return redirect()->route('health-information.index')->with('success', 'Informasi kesehatan berhasil diupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(HealthInformation $health_information)
     {
-        //
+        $health_information->delete();
+
+        return redirect()->route('health-information.index')->with('success', 'Informasi kesehatan berhasil dihapus.');
     }
 }
