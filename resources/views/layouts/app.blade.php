@@ -119,8 +119,8 @@
             </a>
 
             @if (auth()->check() && auth()->user()->role !== 'kesehatan')
-              <a href="{{ route('info-kesehatan.index') }}"
-                class="nav-link {{ request()->routeIs('info-kesehatan.*') ? 'active' : '' }}">
+              <a href="{{ route('health-information.index') }}"
+                class="nav-link {{ request()->routeIs('health-information.*') ? 'active' : '' }}">
                 <i class="bi bi-heart-pulse"></i> Info Kesehatan
               </a>
             @endif
