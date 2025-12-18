@@ -41,11 +41,12 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name", "email", "password", "password_confirmation"},
+     *             required={"name", "email", "password", "password_confirmation", "nik"},
      *             @OA\Property(property="name", type="string", example="John Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
      *             @OA\Property(property="password", type="string", format="password", minLength=8, example="password123"),
      *             @OA\Property(property="password_confirmation", type="string", format="password", example="password123"),
+     *             @OA\Property(property="nik", type="string", example="1234567890123456"),
      *             @OA\Property(property="role", type="string", enum={"anggota", "admin", "super admin", "keuangan"}, example="anggota")
      *         )
      *     ),
@@ -88,6 +89,7 @@ class AuthController extends Controller
             // 'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
             'role' => $request->role ?? 'anggota',
+            'national_id' => $request->nik ?? null,
         ]);
 
         return response()->json([
