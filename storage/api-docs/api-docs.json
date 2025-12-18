@@ -156,7 +156,8 @@
                                     "name",
                                     "email",
                                     "password",
-                                    "password_confirmation"
+                                    "password_confirmation",
+                                    "nik"
                                 ],
                                 "properties": {
                                     "name": {
@@ -178,6 +179,10 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "password123"
+                                    },
+                                    "nik": {
+                                        "type": "string",
+                                        "example": "1234567890123456"
                                     },
                                     "role": {
                                         "type": "string",
@@ -972,8 +977,8 @@
                 "tags": [
                     "Village Potential"
                 ],
-                "summary": "Get all village potentials",
-                "description": "Retrieve a list of all village potentials",
+                "summary": "Get all published village potentials",
+                "description": "Retrieve a list of non-draft village potentials with author relationship",
                 "operationId": "5b8326736d1155eedc1d9fd391e12a9d",
                 "responses": {
                     "200": {
