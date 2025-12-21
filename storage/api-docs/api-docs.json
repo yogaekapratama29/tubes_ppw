@@ -510,6 +510,70 @@
                 ]
             }
         },
+        "/api/village/user": {
+            "get": {
+                "tags": [
+                    "Village"
+                ],
+                "summary": "Get village information for authenticated user",
+                "description": "Retrieve village information associated with the authenticated user",
+                "operationId": "getVillageUser",
+                "responses": {
+                    "200": {
+                        "description": "Village information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "village": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Kembaran Wetan"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "Kaligondang, Purbalingga, Jawa Tengah"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "image_path": {
+                                                    "type": "string",
+                                                    "format": "url"
+                                                },
+                                                "banner_path": {
+                                                    "type": "string",
+                                                    "format": "url"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/village-fund": {
             "get": {
                 "tags": [
@@ -1430,6 +1494,10 @@
         {
             "name": "Health Information",
             "description": "Health Information"
+        },
+        {
+            "name": "Village",
+            "description": "Village"
         },
         {
             "name": "Village Fund",
