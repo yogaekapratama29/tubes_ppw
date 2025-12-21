@@ -383,6 +383,281 @@
                 ]
             }
         },
+        "/api/citizen-report": {
+            "post": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Create a new citizen report",
+                "description": "Store a newly created citizen report with optional attachments",
+                "operationId": "storeCitizenReport",
+                "requestBody": {
+                    "description": "Citizen report data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "nik": {
+                                        "description": "User's national ID",
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "description": "Report message",
+                                        "type": "string"
+                                    },
+                                    "attachments": {
+                                        "description": "Optional file attachments",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aduan berhasil dibuat!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/citizen-report/{id}": {
+            "get": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Get citizen report details",
+                "description": "Retrieve details of a specific citizen report",
+                "operationId": "showCitizenReport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Citizen report ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Citizen report retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "citizen_report": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "user_id": {
+                                                    "type": "integer"
+                                                },
+                                                "admin_id": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "pending",
+                                                        "resolved",
+                                                        "rejected"
+                                                    ]
+                                                },
+                                                "response": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "attachment_paths": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citizen report not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/citizen-report/user/{id}": {
+            "get": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Get citizen reports by user",
+                "description": "Retrieve all citizen reports for a specific user, grouped by status (pending and completed)",
+                "operationId": "getCitizenReportByUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User reports retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pending": {
+                                            "description": "Pending reports",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "admin_id": {
+                                                        "type": "integer",
+                                                        "nullable": true
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "response": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "attachment_paths": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "completed": {
+                                            "description": "Completed reports (approved or rejected)",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "admin_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "approved",
+                                                            "rejected"
+                                                        ]
+                                                    },
+                                                    "response": {
+                                                        "type": "string"
+                                                    },
+                                                    "attachment_paths": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/health-information": {
             "get": {
                 "tags": [
@@ -1158,6 +1433,10 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Citizen Report",
+            "description": "Citizen Report"
         },
         {
             "name": "Health Information",

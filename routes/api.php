@@ -24,6 +24,9 @@ Route::name('api.')->group(function () {
 
         Route::resource('administration', AdministrationController::class);
         Route::get('administration/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
+        
+        Route::resource('citizen-report', AdministrationController::class);
+        Route::get('citizen-report/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
 
         Route::resource('village-potential', VillagePotentialController::class);
         Route::resource('village-fund', VillageFundController::class);
