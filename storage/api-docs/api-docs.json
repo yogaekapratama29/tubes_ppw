@@ -85,6 +85,52 @@
                 ]
             }
         },
+        "/api/administration/{id}": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "summary": "Get administration request by ID",
+                "description": "Display the specified resource.",
+                "operationId": "64a2c3e39fc29d8d9efd2bb0ba032dc5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Administration request ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "administration_request": {
+                                            "$ref": "#/components/schemas/AdministrationRequest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Administration request not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/administration/user/{id}": {
             "get": {
                 "tags": [
