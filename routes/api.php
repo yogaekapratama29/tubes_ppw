@@ -4,6 +4,7 @@ use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HealthInformationController;
 use App\Http\Controllers\VillageController;
+use App\Http\Controllers\VillageFundController;
 use App\Http\Controllers\VillagePotentialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +25,8 @@ Route::name('api.')->group(function () {
         Route::resource('administration', AdministrationController::class);
         Route::get('administration/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
 
-        Route::resource('village-potentials', VillagePotentialController::class);
+        Route::resource('village-potential', VillagePotentialController::class);
+        Route::resource('village-fund', VillageFundController::class);
         Route::resource('health-information', HealthInformationController::class);
         
         // Route::resource('group', GroupController::class);
