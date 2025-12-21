@@ -704,14 +704,14 @@
                 ]
             }
         },
-        "/api/village-potentials": {
+        "/api/village-potential": {
             "get": {
                 "tags": [
                     "Village Potential"
                 ],
                 "summary": "Get all published village potentials",
                 "description": "Retrieve a list of non-draft village potentials with author relationship",
-                "operationId": "5b8326736d1155eedc1d9fd391e12a9d",
+                "operationId": "39e51a6f6f2ec85faf1b4ce163bb9ae0",
                 "responses": {
                     "200": {
                         "description": "Village potentials list retrieved successfully",
@@ -755,14 +755,14 @@
                 ]
             }
         },
-        "/api/village-potentials/{id}": {
+        "/api/village-potential/{id}": {
             "get": {
                 "tags": [
                     "Village Potential"
                 ],
                 "summary": "Get village potential by ID",
                 "description": "Retrieve a specific village potential by ID",
-                "operationId": "bd6b3bf53221cba27904ae96c5ae2b4d",
+                "operationId": "7f4edcdb938947b39d8e621bd90aef8b",
                 "parameters": [
                     {
                         "name": "id",

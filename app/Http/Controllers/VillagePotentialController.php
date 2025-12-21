@@ -10,7 +10,7 @@ class VillagePotentialController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/village-potentials",
+     *     path="/api/village-potential",
      *     tags={"Village Potential"},
      *     summary="Get all published village potentials",
      *     description="Retrieve a list of non-draft village potentials with author relationship",
@@ -76,7 +76,7 @@ class VillagePotentialController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/village-potentials/{id}",
+     *     path="/api/village-potential/{id}",
      *     tags={"Village Potential"},
      *     summary="Get village potential by ID",
      *     description="Retrieve a specific village potential by ID",
