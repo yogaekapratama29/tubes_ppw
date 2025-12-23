@@ -121,7 +121,7 @@ class CitizenReportController extends Controller
      *                 @OA\Property(property="user_id", type="integer"),
      *                 @OA\Property(property="admin_id", type="integer", nullable=true),
      *                 @OA\Property(property="message", type="string"),
-     *                 @OA\Property(property="status", type="string", enum={"pending", "resolved", "rejected"}),
+     *                 @OA\Property(property="status", type="string", enum={"pending", "approved", "rejected"}),
      *                 @OA\Property(property="response", type="string", nullable=true),
      *                 @OA\Property(property="attachment_paths", type="string"),
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
@@ -160,7 +160,7 @@ class CitizenReportController extends Controller
         $validated = $request->validate([
             'message' => ['required', 'string'],
             'attachments.*' => ['nullable', 'file', 'max:2048'],
-            'status' => ['required', 'in:pending,resolved,rejected'],
+            'status' => ['required', 'in:pending,approved,rejected'],
             'response' => [Rule::requiredIf(fn () => $request->status !== 'pending'), 'nullable', 'string'],
         ]);
 
