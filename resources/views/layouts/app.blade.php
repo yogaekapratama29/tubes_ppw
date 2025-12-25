@@ -86,43 +86,58 @@
         </div>
         <div class="offcanvas-body">
           <nav class="nav nav-pills flex-column">
+            {{-- Profil Desa - Semua Role --}}
             <a href="{{ route('profile-desa.index') }}"
               class="nav-link {{ request()->is('/') || request()->routeIs('profile-desa.*') ? 'active' : '' }}">
               <i class="bi bi-house-door"></i> Profil Desa
             </a>
 
-            @if (auth()->check() && auth()->user()->role !== 'keuangan')
-              <a href="{{ route('user.index') }}"
-                class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
-                <i class="bi bi-person"></i> Daftar Warga
-              </a>
-
-              <a href="{{ route('administration.index') }}"
-                class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
-                <i class="bi bi-file-earmark-text"></i> Administrasi
-              </a>
-
-              <a href="{{ route('citizen-report.index') }}"
-                class="nav-link {{ request()->routeIs('citizen-report.*') ? 'active' : '' }}">
-                <i class="bi bi-chat-dots"></i> Aduan Warga
-              </a>
-
-              <a href="{{ route('village-potential.index') }}"
-                class="nav-link {{ request()->routeIs('village-potential.*') ? 'active' : '' }}">
-                <i class="bi bi-bar-chart"></i> Potensi Desa
-              </a>
+            {{-- Daftar Warga - Super Admin & Admin --}}
+            @if(in_array(auth()->user()->role, ['super admin', 'admin']))
+            <a href="{{ route('user.index') }}"
+              class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
+              <i class="bi bi-person"></i> Daftar Warga
+            </a>
             @endif
 
+            {{-- Administrasi - Super Admin & Admin --}}
+            @if(in_array(auth()->user()->role, ['super admin', 'admin']))
+            <a href="{{ route('administration.index') }}"
+              class="nav-link {{ request()->routeIs('administration.*') ? 'active' : '' }}">
+              <i class="bi bi-file-earmark-text"></i> Administrasi
+            </a>
+            @endif
+
+            {{-- Aduan Warga - Super Admin & Admin --}}
+            @if(in_array(auth()->user()->role, ['super admin', 'admin']))
+            <a href="{{ route('citizen-report.index') }}"
+              class="nav-link {{ request()->routeIs('citizen-report.*') ? 'active' : '' }}">
+              <i class="bi bi-chat-dots"></i> Aduan Warga
+            </a>
+            @endif
+
+            {{-- Potensi Desa - Super Admin Only --}}
+            @if(auth()->user()->role === 'super admin')
+            <a href="{{ route('village-potential.index') }}"
+              class="nav-link {{ request()->routeIs('village-potential.*') ? 'active' : '' }}">
+              <i class="bi bi-bar-chart"></i> Potensi Desa
+            </a>
+            @endif
+
+            {{-- Dana Desa - Super Admin & Keuangan --}}
+            @if(in_array(auth()->user()->role, ['super admin', 'keuangan']))
             <a href="{{ route('village-fund.index') }}"
               class="nav-link {{ request()->routeIs('village-fund.*') ? 'active' : '' }}">
               <i class="bi bi-cash-stack"></i> Dana Desa
             </a>
+            @endif
 
-            @if (auth()->check() && auth()->user()->role !== 'kesehatan')
-              <a href="{{ route('health-information.index') }}"
-                class="nav-link {{ request()->routeIs('health-information.*') ? 'active' : '' }}">
-                <i class="bi bi-heart-pulse"></i> Info Kesehatan
-              </a>
+            {{-- Info Kesehatan - Super Admin Only --}}
+            @if(auth()->user()->role === 'super admin')
+            <a href="{{ route('health-information.index') }}"
+              class="nav-link {{ request()->routeIs('health-information.*') ? 'active' : '' }}">
+              <i class="bi bi-heart-pulse"></i> Info Kesehatan
+            </a>
             @endif
           </nav>
         </div>
