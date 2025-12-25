@@ -6,9 +6,9 @@
 <x-container>
     <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
         <h4 class="fw-bold mb-0">Aduan Warga</h4>
-        <a href="{{ route('citizen-report.create') }}" class="btn btn-primary">
+        {{-- <a href="{{ route('citizen-report.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i> Tambah Aduan Baru
-        </a>
+        </a> --}}
     </div>
 
     <div class="p-0 p-md-4">

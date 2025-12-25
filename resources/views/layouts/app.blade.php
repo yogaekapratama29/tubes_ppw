@@ -92,8 +92,8 @@
               <i class="bi bi-house-door"></i> Profil Desa
             </a>
 
-            {{-- Daftar Warga - Super Admin & Admin --}}
-            @if(in_array(auth()->user()->role, ['super admin', 'admin']))
+            {{-- Daftar Warga - Super Admin --}}
+            @if(in_array(auth()->user()->role, ['super admin']))
             <a href="{{ route('user.index') }}"
               class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
               <i class="bi bi-person"></i> Daftar Warga
