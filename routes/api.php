@@ -4,6 +4,8 @@ use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HealthInformationController;
 use App\Http\Controllers\VillagePotentialController;
+use App\Http\Controllers\VillageFundController;
+use App\Http\Controllers\CitizenReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,11 @@ Route::name('api.')->group(function () {
 
         Route::resource('village-potentials', VillagePotentialController::class);
         Route::resource('health-information', HealthInformationController::class);
+
+        Route::get('/village-funds', [VillageFundController::class, 'index']);
+
+        Route::post('/citizen-reports', [CitizenReportController::class, 'store']);
+        Route::get('/citizen-reports', [CitizenReportController::class, 'index']);
         
         // Route::resource('group', GroupController::class);
         

@@ -35,6 +35,8 @@ class CitizenReportController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'nama' => ['required', 'string'],
+            'no_hp' => ['required', 'string'],
             'message' => ['required', 'string'],
             'attachments.*' => ['nullable', 'file', 'max:2048'],
             'nik' => ['required', 'string', 'exists:users,national_id'],
@@ -51,12 +53,23 @@ class CitizenReportController extends Controller
 
         CitizenReport::create([
             'user_id' => $user->id,
+            'nama' => $validated['nama'],
+            'no_hp' => $validated['no_hp'],
             'message' => $validated['message'],
             'attachment_paths' => json_encode($attachmentPaths),
             'status' => 'pending',
         ]);
 
-        return redirect()->route('citizen-report.index')->with('success', 'Aduan berhasil dibuat.');
+        if ($request->wantsJson() || $request->is('api/*')) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Aduan berhasil dikirim.'
+        ], 201);
+    }
+
+    
+        return redirect()->route('citizen-report.index')
+                     ->with('success', 'Aduan berhasil dibuat.');
     }
 
     /**

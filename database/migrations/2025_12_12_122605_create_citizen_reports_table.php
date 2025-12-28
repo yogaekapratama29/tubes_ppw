@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('citizen_reports', function (Blueprint $table) {
             $table->id();
+            $table->string('nama'); 
+            $table->string('no_hp');
             $table->string('message');
             $table->string('attachment_paths');
             $table->string('response')->nullable();
