@@ -32,6 +32,9 @@ class AdministrationRequest extends Model
     use HasFactory;
 
     protected $fillable = [
+        'nama',
+        'nik',
+        'no_hp',
         'letter_type',
         'message',
         'response',

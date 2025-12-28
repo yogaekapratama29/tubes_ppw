@@ -61,27 +61,33 @@ class AdministrationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'letter_type' => ['required', 'string', Rule::in(['ktp', 'kk', 'sk'])],
-            'message' => ['required', 'string', 'max:255'],
+            'nama' => ['required', 'string'],
             'nik' => ['required', 'string'],
+            'no_hp' => ['required', 'string'],
+            'letter_type' => ['required', 'string', Rule::in(['ktp', 'kk', 'sk'])],
+            'message' => ['required', 'string', 'max:255'],         
         ]);
 
         $user = User::where('national_id', $validated['nik'])->firstOrFail();
 
         AdministrationRequest::create([
             'user_id' => $user->id,
+            'nama' => $validated['nama'],
+            'nik' => $validated['nik'],
+            'no_hp' => $validated['no_hp'],
             'letter_type' => $validated['letter_type'],
             'message' => $validated['message'],
             'status' => 'pending',
         ]);
 
-        if ($request->wantsJson()) {
+        if ($request->wantsJson() || $request->is('api/*')) {
             return response()->json([
-                'message' => 'Permintaan administrasi berhasil dibuat!'
-            ]);
+                'success' => true,
+                'message' => 'Permintaan administrasi berhasil dikirim.'
+            ], 201);
         }
 
-        return redirect()->route('administration.index')->with('success', 'Permintaan administrasi berhasil ditambahkan.');
+        return redirect()->route('administration.index')->with('success', 'Berhasil.');
     }
 
     /**

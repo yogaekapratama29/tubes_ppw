@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('administration_requests', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('nik');
+            $table->string('no_hp');
             $table->enum('letter_type', ['ktp', 'kk', 'sk']);
             $table->string('message');
             $table->string('response')->nullable();
