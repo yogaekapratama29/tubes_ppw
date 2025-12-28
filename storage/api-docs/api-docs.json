@@ -85,6 +85,52 @@
                 ]
             }
         },
+        "/api/administration/{id}": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "summary": "Get administration request by ID",
+                "description": "Display the specified resource.",
+                "operationId": "64a2c3e39fc29d8d9efd2bb0ba032dc5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Administration request ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "administration_request": {
+                                            "$ref": "#/components/schemas/AdministrationRequest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Administration request not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/administration/user/{id}": {
             "get": {
                 "tags": [
@@ -383,6 +429,281 @@
                 ]
             }
         },
+        "/api/citizen-report": {
+            "post": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Create a new citizen report",
+                "description": "Store a newly created citizen report with optional attachments",
+                "operationId": "storeCitizenReport",
+                "requestBody": {
+                    "description": "Citizen report data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "nik": {
+                                        "description": "User's national ID",
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "description": "Report message",
+                                        "type": "string"
+                                    },
+                                    "attachments": {
+                                        "description": "Optional file attachments",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aduan berhasil dibuat!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/citizen-report/{id}": {
+            "get": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Get citizen report details",
+                "description": "Retrieve details of a specific citizen report",
+                "operationId": "showCitizenReport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Citizen report ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Citizen report retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "citizen_report": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "user_id": {
+                                                    "type": "integer"
+                                                },
+                                                "admin_id": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "pending",
+                                                        "approved",
+                                                        "rejected"
+                                                    ]
+                                                },
+                                                "response": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "attachment_paths": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citizen report not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/citizen-report/user/{id}": {
+            "get": {
+                "tags": [
+                    "Citizen Report"
+                ],
+                "summary": "Get citizen reports by user",
+                "description": "Retrieve all citizen reports for a specific user, grouped by status (pending and completed)",
+                "operationId": "getCitizenReportByUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User reports retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pending": {
+                                            "description": "Pending reports",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "admin_id": {
+                                                        "type": "integer",
+                                                        "nullable": true
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "response": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "attachment_paths": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "completed": {
+                                            "description": "Completed reports (approved or rejected)",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "admin_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "approved",
+                                                            "rejected"
+                                                        ]
+                                                    },
+                                                    "response": {
+                                                        "type": "string"
+                                                    },
+                                                    "attachment_paths": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/health-information": {
             "get": {
                 "tags": [
@@ -510,6 +831,70 @@
                 ]
             }
         },
+        "/api/village/user": {
+            "get": {
+                "tags": [
+                    "Village"
+                ],
+                "summary": "Get village information for authenticated user",
+                "description": "Retrieve village information associated with the authenticated user",
+                "operationId": "getVillageUser",
+                "responses": {
+                    "200": {
+                        "description": "Village information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "village": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Kembaran Wetan"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "Kaligondang, Purbalingga, Jawa Tengah"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "image_path": {
+                                                    "type": "string",
+                                                    "format": "url"
+                                                },
+                                                "banner_path": {
+                                                    "type": "string",
+                                                    "format": "url"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/village-fund": {
             "get": {
                 "tags": [
@@ -535,122 +920,6 @@
                                             "type": "number",
                                             "format": "double",
                                             "example": 72857002
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Village Fund"
-                ],
-                "summary": "Create village fund transaction",
-                "operationId": "06f8ce1baecd48f2c55472d38640ff40",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "title",
-                                    "transaction_type",
-                                    "amount",
-                                    "description",
-                                    "admin_id"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "string",
-                                        "example": "Pembangunan Jalan Desa"
-                                    },
-                                    "transaction_type": {
-                                        "type": "string",
-                                        "enum": [
-                                            "in",
-                                            "out"
-                                        ],
-                                        "example": "out"
-                                    },
-                                    "amount": {
-                                        "type": "number",
-                                        "format": "double",
-                                        "example": 15000000
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "Pengaspalan jalan utama RT 01/02"
-                                    },
-                                    "is_draft": {
-                                        "type": "boolean",
-                                        "example": true
-                                    },
-                                    "admin_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Dana desa berhasil ditambahkan!"
-                                        },
-                                        "village_fund": {
-                                            "$ref": "#/components/schemas/VillageFund"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        },
-                                        "errors": {
-                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -754,232 +1023,16 @@
                         "bearerAuth": []
                     }
                 ]
-            },
-            "put": {
-                "tags": [
-                    "Village Fund"
-                ],
-                "summary": "Update village fund",
-                "operationId": "cca8fef7db78caa6e681acfcffeab3d8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "title",
-                                    "transaction_type",
-                                    "amount",
-                                    "description",
-                                    "admin_id"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "string",
-                                        "example": "Pemeliharaan Irigasi"
-                                    },
-                                    "transaction_type": {
-                                        "type": "string",
-                                        "enum": [
-                                            "in",
-                                            "out"
-                                        ],
-                                        "example": "out"
-                                    },
-                                    "amount": {
-                                        "type": "number",
-                                        "format": "double",
-                                        "example": 7500000
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "Perbaikan saluran irigasi RT 05"
-                                    },
-                                    "is_draft": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "admin_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Updated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Dana desa berhasil diperbarui!"
-                                        },
-                                        "village_fund": {
-                                            "$ref": "#/components/schemas/VillageFund"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Not Found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Village Fund"
-                ],
-                "summary": "Delete village fund",
-                "operationId": "20035195a431f26a5c722733d8b35586",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Deleted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Dana desa berhasil dihapus!"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Not Found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
             }
         },
-        "/api/village-potentials": {
+        "/api/village-potential": {
             "get": {
                 "tags": [
                     "Village Potential"
                 ],
                 "summary": "Get all published village potentials",
                 "description": "Retrieve a list of non-draft village potentials with author relationship",
-                "operationId": "5b8326736d1155eedc1d9fd391e12a9d",
+                "operationId": "39e51a6f6f2ec85faf1b4ce163bb9ae0",
                 "responses": {
                     "200": {
                         "description": "Village potentials list retrieved successfully",
@@ -1023,14 +1076,14 @@
                 ]
             }
         },
-        "/api/village-potentials/{id}": {
+        "/api/village-potential/{id}": {
             "get": {
                 "tags": [
                     "Village Potential"
                 ],
                 "summary": "Get village potential by ID",
                 "description": "Retrieve a specific village potential by ID",
-                "operationId": "bd6b3bf53221cba27904ae96c5ae2b4d",
+                "operationId": "7f4edcdb938947b39d8e621bd90aef8b",
                 "parameters": [
                     {
                         "name": "id",
@@ -1428,8 +1481,16 @@
             "description": "Authentication"
         },
         {
+            "name": "Citizen Report",
+            "description": "Citizen Report"
+        },
+        {
             "name": "Health Information",
             "description": "Health Information"
+        },
+        {
+            "name": "Village",
+            "description": "Village"
         },
         {
             "name": "Village Fund",

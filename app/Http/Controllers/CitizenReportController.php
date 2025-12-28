@@ -31,6 +31,37 @@ class CitizenReportController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/citizen-report",
+     *     operationId="storeCitizenReport",
+     *     tags={"Citizen Report"},
+     *     summary="Create a new citizen report",
+     *     description="Store a newly created citizen report with optional attachments",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Citizen report data",
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(property="nik", type="string", description="User's national ID"),
+     *                 @OA\Property(property="message", type="string", description="Report message"),
+     *                 @OA\Property(property="attachments", type="array", @OA\Items(type="string", format="binary"), description="Optional file attachments")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Report created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aduan berhasil dibuat!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -74,9 +105,49 @@ class CitizenReportController extends Controller
 
     /**
      * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/citizen-report/{id}",
+     *     operationId="showCitizenReport",
+     *     tags={"Citizen Report"},
+     *     summary="Get citizen report details",
+     *     description="Retrieve details of a specific citizen report",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Citizen report ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Citizen report retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="citizen_report", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="user_id", type="integer"),
+     *                 @OA\Property(property="admin_id", type="integer", nullable=true),
+     *                 @OA\Property(property="message", type="string"),
+     *                 @OA\Property(property="status", type="string", enum={"pending", "approved", "rejected"}),
+     *                 @OA\Property(property="response", type="string", nullable=true),
+     *                 @OA\Property(property="attachment_paths", type="string"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Citizen report not found"
+     *     )
+     * )
      */
-    public function show(CitizenReport $citizen_report)
+    public function show(Request $request, CitizenReport $citizen_report)
     {
+        if ($request->wantsJson()) {
+            return response()->json(compact('citizen_report'));
+        }
+
         return view('admin.citizen-report.show', compact('citizen_report'));
     }
 
@@ -96,7 +167,7 @@ class CitizenReportController extends Controller
         $validated = $request->validate([
             'message' => ['required', 'string'],
             'attachments.*' => ['nullable', 'file', 'max:2048'],
-            'status' => ['required', 'in:pending,resolved,rejected'],
+            'status' => ['required', 'in:pending,approved,rejected'],
             'response' => [Rule::requiredIf(fn () => $request->status !== 'pending'), 'nullable', 'string'],
         ]);
 
@@ -145,5 +216,76 @@ class CitizenReportController extends Controller
         $citizen_report->delete();
 
         return redirect()->route('citizen-report.index')->with('success', 'Aduan berhasil dihapus.');
+    }
+
+    /**
+     * Get citizen reports by user
+     * @OA\Get(
+     *     path="/api/citizen-report/user/{id}",
+     *     operationId="getCitizenReportByUser",
+     *     tags={"Citizen Report"},
+     *     summary="Get citizen reports by user",
+     *     description="Retrieve all citizen reports for a specific user, grouped by status (pending and completed)",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="User ID",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User reports retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="pending", type="array", description="Pending reports",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="user_id", type="integer"),
+     *                     @OA\Property(property="admin_id", type="integer", nullable=true),
+     *                     @OA\Property(property="message", type="string"),
+     *                     @OA\Property(property="status", type="string", example="pending"),
+     *                     @OA\Property(property="response", type="string", nullable=true),
+     *                     @OA\Property(property="attachment_paths", type="string"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time")
+     *                 )
+     *             ),
+     *             @OA\Property(property="completed", type="array", description="Completed reports (approved or rejected)",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="user_id", type="integer"),
+     *                     @OA\Property(property="admin_id", type="integer"),
+     *                     @OA\Property(property="message", type="string"),
+     *                     @OA\Property(property="status", type="string", enum={"approved", "rejected"}),
+     *                     @OA\Property(property="response", type="string"),
+     *                     @OA\Property(property="attachment_paths", type="string"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function getByUser(string $id)
+    {
+        $pending = CitizenReport::where('user_id', $id)
+            ->where('status', 'pending')
+            ->with(['user', 'admin'])
+            ->latest()
+            ->get();
+
+        $completed = CitizenReport::where('user_id', $id)
+            ->whereIn('status', ['approved', 'rejected'])
+            ->with(['user', 'admin'])
+            ->latest()
+            ->get();
+
+        return response()->json(compact('pending', 'completed'));
     }
 }

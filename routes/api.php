@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HealthInformationController;
+use App\Http\Controllers\VillageController;
+use App\Http\Controllers\VillageFundController;
 use App\Http\Controllers\VillagePotentialController;
 use App\Http\Controllers\VillageFundController;
 use App\Http\Controllers\CitizenReportController;
@@ -20,10 +22,16 @@ Route::name('api.')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/village/user', [VillageController::class, 'getUserVillage']);
+
         Route::resource('administration', AdministrationController::class);
         Route::get('administration/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
+        
+        Route::resource('citizen-report', AdministrationController::class);
+        Route::get('citizen-report/user/{user}', [AdministrationController::class, 'getByUser'])->name('administration.get_by_user');
 
-        Route::resource('village-potentials', VillagePotentialController::class);
+        Route::resource('village-potential', VillagePotentialController::class);
+        Route::resource('village-fund', VillageFundController::class);
         Route::resource('health-information', HealthInformationController::class);
 
         Route::get('/village-funds', [VillageFundController::class, 'index']);

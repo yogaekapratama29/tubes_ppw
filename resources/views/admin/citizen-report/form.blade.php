@@ -25,11 +25,11 @@
         <div class="mb-3">
             <label for="attachments" class="form-label">Lampiran</label>
             <input type="file" class="form-control @error('attachments') is-invalid @enderror" id="attachments" name="attachments[]" multiple>
-            @if(isset($citizen_report) && $citizen_report->attachment_paths)
+            @if(isset($citizen_report) && $citizen_report->attachment_paths && !empty(json_decode($citizen_report->attachment_paths, true)))
                 <div class="mt-2">
                     <p>Lampiran saat ini:</p>
-                    @foreach(json_decode($citizen_report->attachment_paths) as $attachment)
-                        <a href="{{ asset('storage/' . $attachment) }}" target="_blank">Lihat Lampiran</a>
+                    @foreach(json_decode($citizen_report->attachment_paths, true) as $attachment)
+                        <a href="{{ asset('storage/' . $attachment) }}" target="_blank" class="d-block">Lihat Lampiran</a>
                     @endforeach
                 </div>
             @endif
@@ -60,7 +60,7 @@
                 <label for="status" class="form-label">Status</label>
                 <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
                     <option value="pending" @selected(old('status', $citizen_report->status) == 'pending')>Pending</option>
-                    <option value="resolved" @selected(old('status', $citizen_report->status) == 'resolved')>Resolved</option>
+                    <option value="approved" @selected(old('status', $citizen_report->status) == 'approved')>Approved</option>
                     <option value="rejected" @selected(old('status', $citizen_report->status) == 'rejected')>Rejected</option>
                 </select>
                 @error('status')

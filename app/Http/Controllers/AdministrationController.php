@@ -77,7 +77,7 @@ class AdministrationController extends Controller
 
         if ($request->wantsJson()) {
             return response()->json([
-                'message' => 'Permintaan administrasi berhasil ditambahkan!'
+                'message' => 'Permintaan administrasi berhasil dibuat!'
             ]);
         }
 
@@ -86,10 +86,39 @@ class AdministrationController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @OA\Get(
+     *     path="/api/administration/{id}",
+     *     summary="Get administration request by ID",
+     *     tags={"Administration"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Administration request ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="administration_request", ref="#/components/schemas/AdministrationRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Administration request not found"
+     *     )
+     * )
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $administration_request = AdministrationRequest::find($id);
+
+        if ($request->wantsJson()) {
+            return response()->json(compact('administration_request'));
+        }
     }
 
     /**
