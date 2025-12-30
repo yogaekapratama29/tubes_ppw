@@ -28,7 +28,7 @@
 
         <div class="mb-3">
             <label for="message" class="form-label">Pesan/Catatan</label>
-            <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="3">{{ old('message', $administration_request->message ?? '') }}</textarea>
+            <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="3" @if(isset($administration_request)) readonly @endif>{{ old('message', $administration_request->message ?? '') }}</textarea>
             @error('message')
                 <div class="invalid-feedback">
                     {{ $message }}

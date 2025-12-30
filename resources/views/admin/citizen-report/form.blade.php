@@ -14,7 +14,7 @@
 
         <div class="mb-3">
             <label for="message" class="form-label">Pesan/Aduan</label>
-            <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="3">{{ old('message', $citizen_report->message ?? '') }}</textarea>
+            <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="3" @if(isset($citizen_report)) readonly @endif>{{ old('message', $citizen_report->message ?? '') }}</textarea>
             @error('message')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -23,8 +23,10 @@
         </div>
 
         <div class="mb-3">
-            <label for="attachments" class="form-label">Lampiran</label>
-            <input type="file" class="form-control @error('attachments') is-invalid @enderror" id="attachments" name="attachments[]" multiple>
+            @if(!isset($citizen_report))
+                <label for="attachments" class="form-label">Lampiran</label>
+                <input type="file" class="form-control @error('attachments') is-invalid @enderror" id="attachments" name="attachments[]" multiple>
+            @endif
             @if(isset($citizen_report) && $citizen_report->attachment_paths && !empty(json_decode($citizen_report->attachment_paths, true)))
                 <div class="mt-2">
                     <p>Lampiran saat ini:</p>

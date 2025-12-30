@@ -12,8 +12,8 @@ class CitizenReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'no_hp',
+        'name',
+        'phone',
         'message',
         'attachment_paths',
         'response',

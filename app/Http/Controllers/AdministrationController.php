@@ -61,9 +61,9 @@ class AdministrationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => ['required', 'string'],
+            'nama' => ['nullable', 'string'],
             'nik' => ['required', 'string'],
-            'no_hp' => ['required', 'string'],
+            'no_hp' => ['nullable', 'string'],
             'letter_type' => ['required', 'string', Rule::in(['ktp', 'kk', 'sk'])],
             'message' => ['required', 'string', 'max:255'],         
         ]);
@@ -72,9 +72,9 @@ class AdministrationController extends Controller
 
         AdministrationRequest::create([
             'user_id' => $user->id,
-            'nama' => $validated['nama'],
-            'nik' => $validated['nik'],
-            'no_hp' => $validated['no_hp'],
+            'name' => $user->name,
+            'nik' => $user->national_id,
+            'phone' => $user->phone,
             'letter_type' => $validated['letter_type'],
             'message' => $validated['message'],
             'status' => 'pending',

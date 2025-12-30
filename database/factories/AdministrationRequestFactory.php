@@ -59,6 +59,9 @@ class AdministrationRequestFactory extends Factory
         ];
 
         return [
+            'name' => fake()->name(),
+            'phone' => fake()->phoneNumber(),
+            'nik' => fake()->numerify('################'), // 16-digit NIK
             'letter_type' => $letterType,
             'message' => fake()->randomElement($messages[$letterType]),
             'response' => $status === 'pending' ? null : fake()->randomElement($responses[$status]),

@@ -66,8 +66,8 @@ class CitizenReportController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => ['required', 'string'],
-            'no_hp' => ['required', 'string'],
+            'nama' => ['nullable', 'string'],
+            'no_hp' => ['nullable', 'string'],
             'message' => ['required', 'string'],
             'attachments.*' => ['nullable', 'file', 'max:2048'],
             'nik' => ['required', 'string', 'exists:users,national_id'],
@@ -84,8 +84,8 @@ class CitizenReportController extends Controller
 
         CitizenReport::create([
             'user_id' => $user->id,
-            'nama' => $validated['nama'],
-            'no_hp' => $validated['no_hp'],
+            'name' => $user->name,
+            'phone' => $user->phone,
             'message' => $validated['message'],
             'attachment_paths' => json_encode($attachmentPaths),
             'status' => 'pending',
